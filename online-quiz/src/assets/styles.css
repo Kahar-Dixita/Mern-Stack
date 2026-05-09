@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7
+}
+
+nav {
+    background: #222;
+    color: #fff;
+    padding: 0.75rem 1rem
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto
+}
+
+.card {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem
+}
+
+.btn {
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #fff
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: #fff
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid #ddd
+}
+
+.form-row {
+    margin-bottom: 0.75rem
+}
+
+label {
+    display: block;
+    margin-bottom: 0.25rem
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ddd
+}
+
+.nav-links {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center
+}
+
+.small {
+    font-size: 0.9rem;
+    color: #666
+}
