@@ -1,0 +1,175 @@
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-4">
+  <span class="navbar-brand fw-bold">Faculty Dashboard</span>
+
+  <ul class="navbar-nav ms-4">
+    <li class="nav-item">
+      <button class="nav-link btn btn-link text-white"
+              [class.fw-bold]="activeTab==='events'"
+              (click)="activeTab='events'">
+        My Events
+      </button>
+    </li>
+
+    <li class="nav-item">
+      <button class="nav-link btn btn-link text-white"
+              [class.fw-bold]="activeTab==='create'"
+              (click)="activeTab='create'">
+        Create Event
+      </button>
+    </li>
+  </ul>
+
+  <button class="btn btn-light ms-auto" (click)="logout()">
+    Logout
+  </button>
+</nav>
+
+<div class="container mt-4">
+
+  <!-- CREATE EVENT -->
+  <div *ngIf="activeTab==='create'" class="card shadow p-4">
+
+    <h4>{{ selectedEventId ? 'Edit Event' : 'Create New Event' }}</h4>
+
+    <form [formGroup]="form">
+
+      <div class="row g-3 mt-2">
+
+        <div class="col-md-6">
+          <input class="form-control"
+                 placeholder="Event Title"
+                 formControlName="title">
+        </div>
+
+        <div class="col-md-6">
+          <input type="date"
+                 class="form-control"
+                 formControlName="date">
+        </div>
+
+        <div class="col-md-6">
+          <input class="form-control"
+                 placeholder="Venue"
+                 formControlName="venue">
+        </div>
+
+        <div class="col-md-6">
+          <input type="number"
+                 class="form-control"
+                 placeholder="Capacity"
+                 formControlName="capacity">
+        </div>
+
+        <div class="col-12">
+          <textarea class="form-control"
+                    rows="3"
+                    placeholder="Description"
+                    formControlName="description">
+          </textarea>
+        </div>
+
+      </div>
+
+      <button class="btn btn-success mt-3"
+              type="button"
+              (click)="createOrUpdateEvent()">
+
+        {{ selectedEventId ? 'Update Event' : 'Create Event' }}
+      </button>
+
+    </form>
+  </div>
+
+  <!-- MY EVENTS -->
+  <div *ngIf="activeTab==='events'">
+
+    <h4 class="mb-3">My Created Events</h4>
+
+    <div class="row">
+      <div *ngFor="let event of events" class="col-md-4 mb-4">
+
+        <div class="card shadow h-100">
+
+          <div class="card-body">
+            <h5>{{ event.title }}</h5>
+            <p class="small text-muted">{{ event.description }}</p>
+
+            <p><b>Date:</b> {{ event.date }}</p>
+            <p><b>Venue:</b> {{ event.venue }}</p>
+            <p><b>Capacity:</b> {{ event.capacity }}</p>
+
+            <span class="badge"
+                  [ngClass]="'bg-' + statusBadge(event.status)">
+              {{ event.status.toUpperCase() }}
+            </span>
+          </div>
+
+          <div class="card-footer bg-white border-0">
+
+            <button *ngIf="event.status==='approved'"
+                    class="btn btn-outline-success btn-sm w-100"
+                    (click)="viewStudents(event._id)">
+              View Registered Students
+            </button>
+
+            <button *ngIf="event.status==='pending'"
+                    class="btn btn-outline-primary btn-sm w-100"
+                    (click)="editEvent(event)">
+              Edit Event
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div *ngIf="showModal"
+     class="modal fade show d-block"
+     style="background: rgba(0,0,0,0.6)">
+
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5>Registered Students</h5>
+        <button class="btn-close" (click)="showModal=false"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let s of students">
+              <td>{{ s.name }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="downloadCSV()">
+          Download CSV
+        </button>
+
+        <button class="btn btn-secondary" (click)="showModal=false">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <div class="card shadow p-4">
+
+    <h3 class="text-center mb-3">Create Event</h3>
+
+    <form [formGroup]="eventForm">
+
+      <div class="mb-3">
+        <label>Title</label>
+        <input class="form-control" formControlName="title">
+      </div>
+
+      <div class="mb-3">
+        <label>Description</label>
+        <input class="form-control" formControlName="description">
+      </div>
+
+      <div class="mb-3">
+        <label>Date</label>
+        <input type="date" class="form-control" formControlName="date">
+      </div>
+
+      <div class="mb-3">
+        <label>Venue</label>
+        <input class="form-control" formControlName="venue">
+      </div>
+
+      <button class="btn btn-success w-100"
+              (click)="createEvent()">
+        Create Event
+      </button>
+
+    </form>
+
+  </div>
+</div>

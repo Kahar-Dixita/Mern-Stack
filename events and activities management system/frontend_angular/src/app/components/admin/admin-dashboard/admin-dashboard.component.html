@@ -1,0 +1,134 @@
+<div class="container-fluid">
+  <div class="row vh-100">
+
+    <!-- SIDEBAR -->
+    <div class="col-2 bg-dark text-white p-4 d-flex flex-column">
+      <h4 class="fw-bold mb-4">Admin</h4>
+
+      <button class="btn btn-dark text-start" (click)="setTab('dashboard')">Dashboard</button>
+      <button class="btn btn-dark text-start" (click)="setTab('pending')">Pending Events</button>
+      <button class="btn btn-dark text-start" (click)="setTab('approved')">Approved Events</button>
+      <button class="btn btn-dark text-start" (click)="setTab('rejected')">Rejected Events</button>
+      <button class="btn btn-dark text-start" (click)="setTab('users')">Users</button>
+      <button class="btn btn-dark text-start" (click)="setTab('profile')">Profile</button>
+
+      <button class="btn btn-outline-light mt-auto" (click)="logout()">Logout</button>
+    </div>
+
+    <!-- MAIN -->
+    <div class="col-10 bg-light p-4 overflow-auto">
+
+      <!-- DASHBOARD -->
+      <div *ngIf="activeTab === 'dashboard'">
+        <h4>Dashboard Overview</h4>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h6>Pending Events</h6>
+                <h2 class="text-warning">{{ pendingEvents.length }}</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h6>Approved Events</h6>
+                <h2 class="text-success">{{ approvedEvents.length }}</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h6>Rejected Events</h6>
+                <h2 class="text-danger">{{ rejectedEvents.length }}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENDING -->
+      <div *ngIf="activeTab === 'pending'">
+        <h4>Pending Events</h4>
+
+        <div *ngFor="let e of pendingEvents" class="card mb-2 shadow">
+          <div class="card-body">
+            <h6>{{ e.title }}</h6>
+            <p>{{ e.description }}</p>
+
+            <button class="btn btn-success me-2" (click)="approve(e._id)">Approve</button>
+            <button class="btn btn-danger" (click)="reject(e._id)">Reject</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPROVED -->
+      <div *ngIf="activeTab === 'approved'">
+        <h4>Approved Events</h4>
+
+        <div *ngFor="let e of approvedEvents" class="card mb-2 shadow">
+          <div class="card-body">
+            <h6>{{ e.title }}</h6>
+            <span class="badge bg-success">Approved</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REJECTED -->
+      <div *ngIf="activeTab === 'rejected'">
+        <h4>Rejected Events</h4>
+
+        <div *ngFor="let e of rejectedEvents" class="card mb-2 shadow">
+          <div class="card-body">
+            <h6>{{ e.title }}</h6>
+            <span class="badge bg-danger">Rejected</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div *ngIf="activeTab === 'users'">
+        <h4>User Management</h4>
+
+        <button class="btn btn-primary me-2" (click)="userType='student'">Students</button>
+        <button class="btn btn-info" (click)="userType='faculty'">Faculty</button>
+
+        <input class="form-control my-3" [(ngModel)]="search" placeholder="Search" />
+
+        <table class="table table-bordered">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+
+          <tr *ngFor="let u of filteredUsers">
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.role }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteUser(u._id)">Delete</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- PROFILE -->
+      <div *ngIf="activeTab === 'profile' && admin">
+        <div class="card shadow p-3" style="max-width:400px;">
+          <h4>Admin Profile</h4>
+          <p><b>Name:</b> {{ admin.name }}</p>
+          <p><b>Email:</b> {{ admin.email }}</p>
+          <p><b>Role:</b> {{ admin.role }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

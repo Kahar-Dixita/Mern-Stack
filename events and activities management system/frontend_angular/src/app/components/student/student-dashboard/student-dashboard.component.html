@@ -1,0 +1,136 @@
+<nav class="navbar navbar-dark bg-primary px-4">
+  <span class="navbar-brand fw-bold">🎓 Student Portal</span>
+
+  <div *ngIf="student">
+    <button class="btn btn-light me-2" (click)="setTab('events')">Events</button>
+    <button class="btn btn-light me-2" (click)="setTab('myEvents')">My Registrations</button>
+    <button class="btn btn-warning me-2" (click)="setTab('profile')">Profile</button>
+    <button class="btn btn-danger" (click)="logout()">Logout</button>
+  </div>
+</nav>
+
+
+<div class="container mt-4">
+
+  <!-- ================= EVENTS TAB ================= -->
+  <div *ngIf="activeTab === 'events'">
+
+    <h4>Available Events</h4>
+
+    <!-- 🔥 FILTER SECTION -->
+    <div class="card p-3 mb-4 shadow-sm">
+
+      <div class="row g-3">
+
+        <div class="col-md-4">
+         <input
+  class="form-control"
+  placeholder="Search events..."
+  [(ngModel)]="search"
+  (input)="applyFilters()"
+/>
+        </div>
+
+        <div class="col-md-3">
+        <select
+  class="form-select"
+  [(ngModel)]="venueFilter"
+  (change)="applyFilters()"
+>
+  <option value="">All Venues</option>
+  <option *ngFor="let v of venues" [value]="v">{{v}}</option>
+</select>
+        </div>
+
+        <div class="col-md-3">
+         <input
+  type="date"
+  class="form-control"
+  [(ngModel)]="dateFilter"
+  (change)="applyFilters()"
+/>
+        </div>
+
+        <div class="col-md-2">
+          <button class="btn btn-secondary w-100" (click)="resetFilters()">
+            Reset
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- EVENT CARDS -->
+ <div class="row">
+  <div class="col-md-4" *ngFor="let event of filteredEvents">
+
+    <div class="card shadow p-3">
+      <h5>{{event.title}}</h5>
+      <p>{{event.description}}</p>
+
+      <p><b>Date:</b> {{event.date}}</p>
+      <p><b>Venue:</b> {{event.venue}}</p>
+
+      <button
+        class="btn btn-success w-100"
+        (click)="registerEvent(event._id)"
+      >
+        Register
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+  </div>
+
+
+  <!-- ================= MY EVENTS ================= -->
+  <div *ngIf="activeTab === 'myEvents'">
+
+    <h4>My Registered Events</h4>
+
+    <div class="row">
+
+      <div class="col-md-4 mb-4" *ngFor="let item of myEvents">
+
+        <div class="card border-success shadow">
+          <div class="card-body">
+
+            <h5>{{ item.eventId.title }}</h5>
+            <p>{{ item.eventId.description }}</p>
+            <p><b>Date:</b> {{ item.eventId.date }}</p>
+            <p><b>Venue:</b> {{ item.eventId.venue }}</p>
+
+            <span class="badge bg-success">Registered</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= PROFILE ================= -->
+  <div *ngIf="activeTab === 'profile' && student">
+
+    <div class="card shadow mx-auto" style="max-width: 500px;">
+      <div class="card-body">
+
+        <h4 class="text-center">Student Profile</h4>
+
+        <p><b>Name:</b> {{ student.name }}</p>
+        <p><b>Email:</b> {{ student.email }}</p>
+        <p><b>Role:</b> {{ student.role }}</p>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
